@@ -1,7 +1,8 @@
 package com.company.readingIsGood.customer;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class CustomerRepository {
+public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> {
+
+
 }

@@ -1,7 +1,11 @@
 package com.company.readingIsGood.book;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class BookRepository {
+import java.util.List;
+
+public interface BookRepository extends JpaRepository<BookEntity, Long> {
+
+    List<BookEntity> findByIsbn(int isbn);
+
 }

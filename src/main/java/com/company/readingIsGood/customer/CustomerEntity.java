@@ -1,13 +1,22 @@
 package com.company.readingIsGood.customer;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import com.company.readingIsGood.order.OrderEntity;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "customer", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
+@Getter@Setter
+@Table(name = "customer")
 public class CustomerEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    private int number;
+
+    @OneToMany(mappedBy = "customer")
+    private List<OrderEntity> orders;
 }

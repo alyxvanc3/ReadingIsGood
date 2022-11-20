@@ -1,20 +1,26 @@
 package com.company.readingIsGood.order;
 
-import com.company.readingIsGood.warehouse.WarehouseItemEntity;
+import com.company.readingIsGood.customer.CustomerEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "orders", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
+@Table(name = "orders")
 public class OrderEntity {
     @Id
-    private long id;
-    private LocalDate date;
-    private long customerId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    @OneToMany(mappedBy = "orderId")
-    private Set<OrderItemEntity> items;
+    private Date operationDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customer;
+
+    @OneToMany(mappedBy = "orderId",  fetch = FetchType.LAZY)
+    private List<OrderDetailsEntity> orderDetails;
 
 }
