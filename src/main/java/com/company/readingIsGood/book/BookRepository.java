@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<BookEntity, Long> {
 
-    List<BookEntity> findByIsbn(int isbn);
+    BookEntity findByIsbn(int isbn);
 
 }

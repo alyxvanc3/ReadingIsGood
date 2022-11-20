@@ -6,6 +6,6 @@ public interface BookService {
 
     void saveBook(Book book);
 
-    Book updateQuantity(int isbn, int quantity);
+    Book updateQuantity(Book book);
 
 }

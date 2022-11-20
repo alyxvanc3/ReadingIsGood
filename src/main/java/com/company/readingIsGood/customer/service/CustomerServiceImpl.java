@@ -3,7 +3,7 @@ package com.company.readingIsGood.customer.service;
 import com.company.readingIsGood.customer.Customer;
 import com.company.readingIsGood.customer.CustomerEntity;
 import com.company.readingIsGood.customer.CustomerRepository;
-import com.company.readingIsGood.order.Order;
+import com.company.readingIsGood.order.model.Order;
 import com.company.readingIsGood.order.service.OrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Order> getOrdersByCustomerNo(int no, Pageable paging) {
-        return orderService.getOrdersByCustomerNo(no, paging);
+    public Customer get(long id) {
+        return modelMapper.map(customerRepository.findById(id), Customer.class);
+    }
+
+    @Override
+    public List<Order> getOrdersByCustomerId(long id, Pageable paging) {
+        CustomerEntity customer = customerRepository.findById(id).get();
+        return orderService.getOrdersByCustomerId(modelMapper.map(customer, Customer.class), paging);
     }
 }

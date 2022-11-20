@@ -25,19 +25,15 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public Book updateQuantity(int isbn, int quantity) {
-        List<BookEntity> bookList = bookRepository.findByIsbn(isbn);
+    public Book updateQuantity(Book book) {
+        BookEntity bookEntity = bookRepository.findByIsbn(book.getIsbn());
 
-        if(bookList.size() == 1) {
-            BookEntity book = bookList.get(0);
-            if(book.getQuantity() != quantity) {
-                book.setQuantity(quantity);
-                BookEntity bookEntity = bookRepository.save(book);
+        if(bookEntity != null) {
+            bookEntity.setQuantity(book.getQuantity());
+            bookRepository.save(bookEntity);
 
-                return modelMapper.map(bookEntity, Book.class);
-            }
+            return modelMapper.map(bookEntity, Book.class);
         }
-
         return null;
     }
 }

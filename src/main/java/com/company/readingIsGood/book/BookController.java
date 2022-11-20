@@ -17,11 +17,10 @@ public class BookController {
         bookService.saveBook(book);
     }
 
-    @PutMapping(path = "/book/{isbn}/{quantity}")
-    public Book updateQuantity(@PathVariable int isbn,
-                               @PathVariable int quantity) {
+    @PutMapping(path = "/book")
+    public Book updateQuantity(@RequestBody Book book) {
 
-        return bookService.updateQuantity(isbn, quantity);
+        return bookService.updateQuantity(book);
 
     }
 }

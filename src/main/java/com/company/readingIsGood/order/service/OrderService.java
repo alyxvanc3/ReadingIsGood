@@ -1,15 +1,15 @@
 package com.company.readingIsGood.order.service;
 
-import com.company.readingIsGood.order.Order;
+import com.company.readingIsGood.customer.Customer;
+import com.company.readingIsGood.order.model.Order;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 public interface OrderService {
 
-    List<Order> getOrdersByCustomerNo(int customerNo, Pageable pageable);
+    List<Order> getOrdersByCustomerId(Customer customer, Pageable pageable);
 
     void saveOrder(Order order);
 

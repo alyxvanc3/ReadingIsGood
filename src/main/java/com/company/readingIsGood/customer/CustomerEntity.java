@@ -1,6 +1,6 @@
 package com.company.readingIsGood.customer;
 
-import com.company.readingIsGood.order.OrderEntity;
+import com.company.readingIsGood.order.entity.OrderEntity;
 import lombok.Getter;
 import lombok.Setter;
 

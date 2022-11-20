@@ -23,16 +23,15 @@ paths:
           description: Successful operation
         '405':
           description: Invalid input
-  /customer/{customerNo}:
-    post:
+    get:
       tags:
         - customer
       summary: gets orders of customer
       operationId: getOrdersByCustomerId
       parameters:
         - name: customerNo
-          in: path
-          description: customerNo 
+          in: body
+          description: customerNo
           required: true
           schema:
             type: integer
@@ -45,7 +44,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Order'  
+                  $ref: '#/components/schemas/Order'
         '400':
           description: Invalid ID supplied
         '404':
@@ -66,25 +65,16 @@ paths:
           description: Successful operation
         '405':
           description: Invalid input
-  /book/{isbn}/{quantity} :
-    post:
+    put:
       tags:
         - book
       summary: Adds a new book
       operationId: updateQuantity
-      parameters:
-        - name: isbn
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: quantity
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
       responses:
         '200':
           description: successful operation
@@ -124,14 +114,14 @@ paths:
       operationId: getOrderById
       parameters:
         - name: startDate
-          in: path
+          in: body
           description: start date
           required: true
           schema:
             type: string
             format: date
         - name: endDate
-          in: path
+          in: body
           description: end date
           required: true
           schema:
@@ -145,12 +135,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Order'  
+                  $ref: '#/components/schemas/Order'
         '400':
           description: Invalid ID supplied
         '404':
           description: Order not found
-    
+
 components:
   schemas:
     Order:
@@ -176,27 +166,23 @@ components:
           items:
             $ref: '#/components/schemas/OrderDetail'
     OrderDetail:
-          type: object
-          required:
-            - book
-            - quantity
-          properties:
-            book:
-              type: array
-              xml:
-                name: books
-                wrapped: true
-              items:
-                $ref: '#/components/schemas/Book'
-            quantity:
-              type: integer
-              format: int64
-              example: 40
+      type: object
+      required:
+        - book
+        - quantity
+      properties:
+        book:
+          items:
+            $ref: '#/components/schemas/Book'
+        quantity:
+          type: integer
+          format: int64
+          example: 40
     Book:
       type: object
       required:
-       - isbn
-       - price
+        - isbn
+        - price
       properties:
         id:
           type: integer
