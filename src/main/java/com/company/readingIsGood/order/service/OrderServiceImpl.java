@@ -83,12 +83,17 @@ public class OrderServiceImpl implements OrderService{
             orderDetails.add(orderDetailEntity);
 
             Book book = modelMapper.map(bookEntity, Book.class);
-            book.setQuantity(book.getQuantity()-orderDetail.getQuantity());
-            bookService.updateQuantity(book);
+
+            updateStock(book, book.getQuantity()-orderDetail.getQuantity());
         }
         orderEntity.setOrderDetails(orderDetails);
 
         orderRepository.save(orderEntity);
+    }
+
+    private void updateStock(Book book, int quantity) {
+        book.setQuantity(quantity);
+        bookService.updateQuantity(book);
     }
 
     @Override
