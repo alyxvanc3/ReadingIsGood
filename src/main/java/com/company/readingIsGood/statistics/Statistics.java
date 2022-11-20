@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class Statistics {
-    private int month;
+    private String month;
     private int totalOrderCount;
     private int totalBookCount;
     private double totalPurchasedAmount;

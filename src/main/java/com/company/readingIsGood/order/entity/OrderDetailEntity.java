@@ -1,7 +1,6 @@
 package com.company.readingIsGood.order.entity;
 
 import com.company.readingIsGood.book.BookEntity;
-import com.company.readingIsGood.order.entity.OrderEntity;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,6 +1,5 @@
 package com.company.readingIsGood.order.repository;
 
-import com.company.readingIsGood.customer.Customer;
 import com.company.readingIsGood.customer.CustomerEntity;
 import com.company.readingIsGood.order.entity.OrderEntity;
 import org.springframework.data.domain.Page;
