@@ -8,7 +8,7 @@ Java 17
 
 Spring-Boot
 
-H2 Database Engine
+H2
 
 Maven
 
