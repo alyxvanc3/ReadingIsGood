@@ -1,4 +1,5 @@
 # ReadingIsGood
+
 A spring boot project for a fictional company that sells books online.
 
 # Tech Stack
@@ -26,6 +27,7 @@ Postman (ReadingIsGood.postman_collection.json)
 # Dockerizing the project
 
 docker build --tag=readingisgood-server:latest .
+
 docker run -p 8080:8080 readingisgood-server:latest
 
 # Authentication
