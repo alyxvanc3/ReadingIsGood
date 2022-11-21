@@ -23,15 +23,16 @@ paths:
           description: Successful operation
         '405':
           description: Invalid input
+  /customer/order/{customerId}:
     get:
       tags:
         - customer
       summary: gets orders of customer
       operationId: getOrdersByCustomerId
       parameters:
-        - name: customerNo
-          in: body
-          description: customerNo
+        - name: customerId
+          in: path
+          description: customerId
           required: true
           schema:
             type: integer
@@ -68,7 +69,7 @@ paths:
     put:
       tags:
         - book
-      summary: Adds a new book
+      summary: update quantity of book
       operationId: updateQuantity
       requestBody:
         content:
@@ -105,7 +106,35 @@ paths:
                 $ref: '#/components/schemas/Order'
         '405':
           description: Invalid input
-  /order/{startDate}/{endDate}:
+  /statistics/{customerId}:
+    get:
+      tags:
+        - statistics
+      summary: get customer montly statictics
+      description: get customer montly statictics
+      operationId: getStatistics
+      parameters:
+        - name: customerId
+          in: path
+          description: id
+          required: true
+          schema:
+            type: string
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Customer not found
+  /order/date:
     get:
       tags:
         - order

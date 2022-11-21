@@ -7,12 +7,14 @@ import com.company.readingIsGood.book.service.BookService;
 import com.company.readingIsGood.customer.Customer;
 import com.company.readingIsGood.customer.CustomerEntity;
 import com.company.readingIsGood.customer.CustomerRepository;
+import com.company.readingIsGood.exception.NotFoundException;
 import com.company.readingIsGood.order.entity.OrderDetailEntity;
 import com.company.readingIsGood.order.entity.OrderEntity;
 import com.company.readingIsGood.order.model.Order;
 import com.company.readingIsGood.order.model.OrderDetail;
 import com.company.readingIsGood.order.repository.OrderDetailsRepository;
 import com.company.readingIsGood.order.repository.OrderRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,9 +24,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class OrderServiceImpl implements OrderService{
 
     @Autowired
@@ -63,17 +67,32 @@ public class OrderServiceImpl implements OrderService{
     public void saveOrder(Order order) {
         OrderEntity orderEntity = new OrderEntity();
 
-        CustomerEntity customer = customerRepository.findById(order.getCustomerId()).get();
+        Optional<CustomerEntity> entity = customerRepository.findById(order.getCustomerId());
+        CustomerEntity customer = null;
+        if(entity.isPresent()) {
+            customer = entity.get();
+        }
+        else {
+            throw new NotFoundException("Customer Not Found.");
+        }
 
         orderEntity.setCustomer(customer);
         orderEntity.setOperationDate(order.getOperationDate());
 
         List<OrderDetailEntity> orderDetails = new ArrayList<>();
 
+        if(order.getOrderDetails().isEmpty()) {
+            throw new NotFoundException("Order Details Not Found.");
+        }
+
         for (OrderDetail orderDetail: order.getOrderDetails()) {
             OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
 
             BookEntity bookEntity = bookRepository.findByIsbn(orderDetail.getBook().getIsbn());
+
+            if(bookEntity == null) {
+                throw new NotFoundException("Book Not Found.");
+            }
 
             orderDetailEntity.setBook(bookEntity);
             orderDetailEntity.setQuantity(orderDetail.getQuantity());
@@ -86,8 +105,9 @@ public class OrderServiceImpl implements OrderService{
 
             updateStock(book, book.getQuantity()-orderDetail.getQuantity());
         }
-        orderEntity.setOrderDetails(orderDetails);
 
+        orderEntity.setOrderDetails(orderDetails);
+        log.info("Order is saved");
         orderRepository.save(orderEntity);
     }
 
@@ -98,10 +118,15 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Order getOrderById(long orderId) {
+        log.info("Getting order of orderId");
         OrderEntity order = orderRepository.findById(orderId).get();
 
         List<OrderDetailEntity> orderDetails = orderDetailsRepository.findAllByOrderEntity(order);
         List<OrderDetail> orderDetailsDto = new ArrayList<>();
+
+        if(orderDetails == null) {
+            throw new NotFoundException("Order Not Found.");
+        }
 
         for (OrderDetailEntity entity: orderDetails) {
             OrderDetail orderDetail = new OrderDetail();
@@ -124,6 +149,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List<Order> getOrdersByDate(Date startDate, Date endDate) {
+        log.info("Getting orders between dates...");
         List<OrderEntity> orders = orderRepository.getAllBetweenDates(startDate, endDate);
 
         List<Order> orderDtoList = orders

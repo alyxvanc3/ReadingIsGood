@@ -17,6 +17,10 @@ public class CustomerEntity {
 
     private int number;
 
+    private String email;
+
+    private String password;
+
     @OneToMany(mappedBy = "customer")
     private List<OrderEntity> orders;
 }
