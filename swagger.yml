@@ -106,6 +106,51 @@ paths:
                 $ref: '#/components/schemas/Order'
         '405':
           description: Invalid input
+  /order/{orderId}:
+    get:
+      tags:
+        - order
+      summary: Gets order
+      description: Gets order
+      operationId: getOrder
+      parameters:
+        - name: orderId
+          in: path
+          description: orderId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '405':
+          description: Invalid input
+  /authenticate:
+    post:
+      tags:
+        - authenticate
+      summary: authentication
+      description: authentication
+      operationId: authenticate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Authentication'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '405':
+          description: Invalid input
   /statistics/{customerId}:
     get:
       tags:
@@ -206,7 +251,7 @@ components:
         quantity:
           type: integer
           format: int64
-          example: 40
+          example: 1
     Book:
       type: object
       required:
@@ -226,7 +271,7 @@ components:
           example: 10.00
         quantity:
           type: integer
-          example: 40
+          example: 4*
     Customer:
       type: object
       required:
@@ -240,3 +285,14 @@ components:
           type: integer
           format: int64
           example: 1
+    Authentication:
+      type: object
+      properties:
+        username:
+          type: string
+          example: ayse
+        password:
+          type: string
+          example: password
+    Token:
+      type: string

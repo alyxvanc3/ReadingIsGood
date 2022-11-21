@@ -25,8 +25,8 @@ public class OrderController {
         orderService.saveOrder(order);
     }
 
-    @GetMapping(path = "/order")
-    public ResponseEntity<Order> getOrderById(@RequestParam Long orderId) {
+    @GetMapping(path = "/order/{orderId}")
+    public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
         return ResponseEntity.ok(orderService.getOrderById(orderId));
     }
 
