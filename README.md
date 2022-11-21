@@ -41,7 +41,7 @@ curl --location --request POST 'localhost:8080/authenticate' \
 
 # Example Requests (token should be replaced)
 
-I have added some customers and books to the db just to speed up the ordering process
+I have added some customers and books to the db by data.sql file just to speed up the ordering process
 
 # order
 
